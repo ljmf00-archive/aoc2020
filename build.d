@@ -20,7 +20,7 @@ int main(string[] args)
 		);
 	
 		if(exec.status != 0)
-			stderr.writeln("Error on day %s part %s", day.day, day.part);
+			stderr.writefln("Error on day %s part %s", day.day, day.part);
 	
 		return exec;
 	};
