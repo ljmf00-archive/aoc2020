@@ -15,8 +15,8 @@ int main(string[] args)
 	auto executor = delegate(Tuple!(string,"day", string, "part") day, bool example) {
 		auto exec = executeShell(
 			(example)
-				? format!"cat day%1$s_%2$s.in.example | ./day%1$s_%2$s.d"(day.day, day.part)
-				: format!"cat day%1$s_%2$s.in | ./day%1$s_%2$s.d"(day.day, day.part)
+				? format!"cat day%1$s/day%1$s_%2$s.in.example | ./day%1$s/day%1$s_%2$s.d"(day.day, day.part)
+				: format!"cat day%1$s/day%1$s_%2$s.in | ./day%1$s/day%1$s_%2$s.d"(day.day, day.part)
 		);
 	
 		if(exec.status != 0)
@@ -27,7 +27,8 @@ int main(string[] args)
 
 	auto days = dirEntries("","*.d",SpanMode.depth)
 		.filter!(d => d.name != "build.d")
-		.map!"a.name"
+		.map!`a.name.split("/").back`
+		.array.sort
 		.map!((d) {
 			auto signature = d.split("day")[1].split(".")[0];
 			auto day = signature.split("_")[0];
