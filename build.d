@@ -18,10 +18,10 @@ int main(string[] args)
 				? format!"cat day%1$s/day%1$s_%2$s.in.example | ./day%1$s/day%1$s_%2$s.d"(day.day, day.part)
 				: format!"cat day%1$s/day%1$s_%2$s.in | ./day%1$s/day%1$s_%2$s.d"(day.day, day.part)
 		);
-	
+
 		if(exec.status != 0)
 			stderr.writefln("Error on day %s part %s", day.day, day.part);
-	
+
 		return exec;
 	};
 
@@ -41,17 +41,17 @@ int main(string[] args)
 	{
 		if(args[1..$].length != 3)
 			return 1;
-			
+
 		auto exec = executor(tuple!("day", "part")(args[1], args[2]), args[3].to!bool);
 		exec.output.write;
 		return 0;
 	}
-		
+
 	foreach(d; days)
 	{
 		Tuple!(int,"status",string,"output") exec;
-		if((exec = executor(d, false)).status == 0) writefln("Day %s Part %s: %s", d.day, d.part, exec.output.chomp);
-		if((exec = executor(d, true)).status == 0) writefln("Day %s Part %s (example): %s", d.day, d.part, exec.output.chomp);
+		if((exec = executor(d, false)).status == 0) writefln("Day %s Part %s:\n%s", d.day, d.part, exec.output.chomp);
+		if((exec = executor(d, true)).status == 0) writefln("Day %s Part %s (example):\n%s", d.day, d.part, exec.output.chomp);
 	}
 
 	return 0;
